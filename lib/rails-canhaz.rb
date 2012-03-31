@@ -1,5 +1,5 @@
-class CanHaz
-  def self.hi
-    puts "Hello world, this is WIP :)"
-  end
+require 'rails-canhaz/model_extensions'
+
+if defined? ActiveRecord::Base
+  ActiveRecord::Base.send(:include, CanHaz::ModelExtensions)
 end

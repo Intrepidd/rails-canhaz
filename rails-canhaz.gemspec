@@ -6,7 +6,10 @@ Gem::Specification.new do |s|
   s.description = "A simple gem for managing permissions between rails models"
   s.authors     = ["Adrien Siami (Intrepidd)"]
   s.email       = 'adrien@siami.fr'
-  s.files       = ["lib/rails-canhaz.rb"]
+  s.files       = [
+                    "lib/rails-canhaz.rb",
+                    "lib/rails-canhaz/model_extensions.rb"
+                  ]
   s.homepage    =
-    'http://rubygems.org/gems/rails-canhaz'
+    'http://github.com/Intrepidd/rails-canhaz'
 end
