@@ -8,7 +8,9 @@ Gem::Specification.new do |s|
   s.email       = 'adrien@siami.fr'
   s.files       = [
                     "lib/rails-canhaz.rb",
-                    "lib/rails-canhaz/model_extensions.rb"
+                    "lib/rails-canhaz/model_extensions.rb",
+                    "lib/rails-canhaz/extensions_subject.rb",
+                    "lib/rails-canhaz/extensions_object.rb"
                   ]
   s.homepage    =
     'http://github.com/Intrepidd/rails-canhaz'
