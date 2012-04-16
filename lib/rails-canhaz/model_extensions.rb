@@ -1,10 +1,12 @@
 require 'rails-canhaz/extensions_subject'
 require 'rails-canhaz/extensions_object'
+require 'rails-canhaz/extensions_all'
 
 module CanHaz
   module ModelExtensions
     def self.included(base)
       base.send(:extend, ClassMethods)
+      base.send(:include, CanHaz::ModelExtensions::All)
     end
   end
 

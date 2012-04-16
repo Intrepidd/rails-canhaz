@@ -1,9 +1,13 @@
 module CanHaz
   module ModelExtensions
-    module Subject
+    module All
 
       def canhaz_subject?
-        true
+        false
+      end
+
+      def canhaz_object?
+        false
       end
 
     end
