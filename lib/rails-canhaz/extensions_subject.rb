@@ -28,6 +28,19 @@ module CanHaz
         CanHazPermission.find_permission(self, object, permission) != nil
       end
 
+      # Gets All objects that match a given type and permission
+      #
+      # @param type [Class] The type of the objects
+      # @param permission [String, Symbol] The name of the permission
+      # @return The macthing objects in an array
+      def objects_with_permission(type, permission = nil)
+        results = CanHazPermission.where('csubject_id = ? AND csubject_type = ?', self.id, self.class.to_s).where('cobject_type = ?', type.to_s).where('permission_name = ?', permission)
+
+        ids = results.collect { |r| r.cobject_id }
+
+        type.where('id IN (?)', ids)
+      end
+
       def canhaz_subject?
         true
       end
