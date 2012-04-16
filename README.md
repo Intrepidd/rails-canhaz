@@ -16,6 +16,25 @@ Or in your Gemfile if you use bundler
 gem 'rails-canhaz'
 ```
 
+You then need to create a single table in order to make this gem to work
+
+Here is the schema of this table, if you're using ruby on rails, you should create a migration :
+
+```ruby
+create_table :can_haz_permissions do |t|
+  t.integer :csubject_id
+  t.string :csubject_type
+
+  t.integer :cobject_id
+  t.string :cobject_type
+
+  t.string :permission_name
+end
+
+add_index :can_haz_permissions, :csubject_id, :name => 'subject_id_ix'
+add_index :can_haz_permissions, :cobject_id, :name => 'object_id_ix'
+```
+
 ## How to use it ?
 
 The rails-canhaz gem defines two static functions for ActiveRecord models which allow them to act as a subject or an object.
@@ -48,6 +67,8 @@ user.can(:read, article) # Ok, so the user can read this article
 user.can?(:read, article) # Will be true
 
 user.objects_with_permission(Article, :read) # Will return all the articles w/ read permissions for this user
+
+artice.subjects_with_permission(User, :read) # Will return all the users hat are able to read this article
 ```
 
 More coming soon ...
