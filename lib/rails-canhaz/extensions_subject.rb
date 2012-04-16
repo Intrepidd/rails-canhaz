@@ -11,8 +11,8 @@ module CanHaz
         raise Exceptions::NotACanHazObject unless object.canhaz_object?
         CanHazPermission.new({
           :csubject_id       => self.id,
-          :csubject_type     => self.class,
-          :cobject_type      => object.class,
+          :csubject_type     => self.class.to_s,
+          :cobject_type      => object.class.to_s,
           :cobject_id        => object.id,
           :permission_name  => permission
           }).save
@@ -25,6 +25,7 @@ module CanHaz
       # @return [Bool] True if the user has the given permission, false otherwise
       def can?(permission, object)
         raise Exceptions::NotACanHazObject unless object.canhaz_object?
+        CanHazPermission.find_permission(self, object, permission) != nil
       end
 
       def canhaz_subject?
