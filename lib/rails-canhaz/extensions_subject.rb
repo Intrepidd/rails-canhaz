@@ -9,6 +9,13 @@ module CanHaz
       # @return [Bool] True if the role was successfully created, false if it was already present
       def can(permission, object)
         raise Exceptions::NotACanHazObject unless object.canhaz_object?
+        CanHazPermission.new({
+          :csubject_id       => self.id,
+          :csubject_type     => self.class,
+          :cobject_type      => object.class,
+          :cobject_id        => object.id,
+          :permission_name  => permission
+          }).save
       end
 
       # Checks if the subject has a given permission on a given object
