@@ -1,8 +1,10 @@
-require 'test/unit'
-require 'active_record'
+require 'init_tests'
 require 'rails-canhaz'
+require 'test/unit'
 require 'models/object_model'
 require 'models/subject_model'
+
+load 'schema.rb'
 
 class CanHazTest < Test::Unit::TestCase
 
