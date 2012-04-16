@@ -66,6 +66,9 @@ class CanHazTest < Test::Unit::TestCase
     assert subject.can?(:foo, object) == false
     assert subject.can?(:bar, object) == false
 
+    assert object.accessible_by?(subject, :foo) == false
+    assert object.accessible_by?(subject, :bar) == false
+
     assert subject.can(:foo, object)
     assert subject.can(:bar, object)
 
@@ -74,6 +77,9 @@ class CanHazTest < Test::Unit::TestCase
 
     assert subject.can?(:foo, object)
     assert subject.can?(:bar, object)
+
+    assert object.accessible_by?(subject, :foo)
+    assert object.accessible_by?(subject, :bar)
 
     assert subject.objects_with_permission(ObjectModel, :foo).count == 1
     assert subject.objects_with_permission(ObjectModel, :foo).first == object
