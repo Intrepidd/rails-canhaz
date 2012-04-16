@@ -12,6 +12,18 @@ module CanHaz
         subject.can?(permission, self)
       end
 
+      # Gets the subjects that have the corresponding permission and type on this model
+      #
+      # @param type [Class] The type of the subjects we're looking for
+      # @param permission [String, Symbol] The permission
+      def subjects_with_permission(type, permission)
+        results = CanHazPermission.where('cobject_id = ? AND cobject_type = ?', self.id, self.class.to_s).where('csubject_type = ?', type.to_s).where('permission_name = ?', permission)
+
+        ids = results.collect { |r| r.csubject_id }
+
+        type.where('id IN (?)', ids)
+      end
+
       def canhaz_object?
         true
       end

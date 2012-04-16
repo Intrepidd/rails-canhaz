@@ -113,5 +113,43 @@ class CanHazTest < Test::Unit::TestCase
     assert subject.can?(:bar, object) == true
   end
 
+  def test_subjects_from_object
+    object = ObjectModel.new
+    object.save
+
+    s1 = SubjectModel.new
+    s2 = SubjectModel.new
+    s3 = SubjectModel.new
+
+    s1.save
+    s2.save
+    s3.save
+
+    s1.can(:foo, object)
+    s2.can(:bar, object)
+    s3.can(:foo, object)
+
+    foo = object.subjects_with_permission(SubjectModel, :foo)
+
+    assert foo.include?(s1) == true
+    assert foo.include?(s2) == false
+    assert foo.include?(s3) == true
+
+    s3.cannot(:foo, object)
+
+    foo = object.subjects_with_permission(SubjectModel, :foo)
+
+    assert foo.include?(s1) == true
+    assert foo.include?(s2) == false
+    assert foo.include?(s3) == false
+
+    bar = object.subjects_with_permission(SubjectModel, :bar)
+
+    assert bar.include?(s1) == false
+    assert bar.include?(s2) == true
+    assert bar.include?(s3) == false
+
+  end
+
 end
 
