@@ -63,12 +63,18 @@ article = Article.find(1337)
 user.can?(:read, article) # Can the user read this article? false for now
 
 user.can(:read, article) # Ok, so the user can read this article
+user.can(:edit, article) # He can edit it as well
 
 user.can?(:read, article) # Will be true
 
 user.objects_with_permission(Article, :read) # Will return all the articles w/ read permissions for this user
 
 artice.subjects_with_permission(User, :read) # Will return all the users hat are able to read this article
+
+#You can also remove permissions
+
+user.cannot(:read, article)
+
 ```
 
 More coming soon ...
