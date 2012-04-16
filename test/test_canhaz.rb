@@ -46,6 +46,14 @@ class CanHazTest < Test::Unit::TestCase
         subject.can(:whatever, object)
     end
 
+    assert_raise CanHaz::Exceptions::NotACanHazObject do
+        subject.can?(:whatever, foo)
+    end
+
+    assert_nothing_raised RuntimeError do
+        subject.can?(:whatever, object)
+    end
+
   end
 
 end
