@@ -91,4 +91,27 @@ class CanHazTest < Test::Unit::TestCase
 
   end
 
+  def test_can_cannot
+    subject = SubjectModel.new
+    subject.save
+
+    object = ObjectModel.new
+    object.save
+
+    assert subject.can?(:foo, object) == false
+    assert subject.cannot(:foo, object) == false
+
+    subject.can(:foo, object)
+    subject.can(:bar, object)
+
+    assert subject.can?(:foo, object)
+    assert subject.can?(:bar, object)
+
+    assert subject.cannot(:foo, object) == true
+
+    assert subject.can?(:foo, object) == false
+    assert subject.can?(:bar, object) == true
+  end
+
 end
+

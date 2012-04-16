@@ -28,6 +28,27 @@ module CanHaz
         CanHazPermission.find_permission(self, object, permission) != nil
       end
 
+      # Removes a permission on a given object
+      #
+      # @param permission [String, Symbol] The identifier of the permission
+      # @param object [ActiveRecord::Base] The model on which the permission is effective
+      # @return [Bool] True if the role was successfully removed, false if it did not exist
+      def cannot(permission, object)
+        permission = CanHazPermission.find_permission(self, object, permission)
+        return false if permission.nil?
+        permission.destroy and return true
+      end
+
+      # Checks if the subject does not have a given permission on a given object
+      # Acts as a proxy of !subject.can?(permission, object)
+      #
+      # @param permission [String, Symbol] The identifier of the permission
+      # @param object [ActiveRecord::Base] The model we are testing the permission on
+      # @return [Bool] True if the user has not the given permission, false otherwise
+      def cannot?(permission, object)
+        !self.can?(permission, object)
+      end
+
       # Gets All objects that match a given type and permission
       #
       # @param type [Class] The type of the objects
