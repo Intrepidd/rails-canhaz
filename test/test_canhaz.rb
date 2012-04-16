@@ -31,4 +31,21 @@ class CanHazTest < Test::Unit::TestCase
 
   end
 
+  def test_exceptions
+    foo = FooModel.new
+
+    subject = SubjectModel.new
+
+    object = ObjectModel.new
+
+    assert_raise CanHaz::Exceptions::NotACanHazObject do
+        subject.can(:whatever, foo)
+    end
+
+    assert_nothing_raised RuntimeError do
+        subject.can(:whatever, object)
+    end
+
+  end
+
 end

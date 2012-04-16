@@ -1,3 +1,4 @@
+require 'rails-canhaz/exceptions'
 require 'rails-canhaz/model_extensions'
 require 'rails-canhaz/canhaz_permission'
 
