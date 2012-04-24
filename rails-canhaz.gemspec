@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rails-canhaz'
-  s.version     = '0.1.1'
+  s.version     = '0.1.2'
   s.date        = '2012-04-16'
   s.summary     = "A simple gem for managing permissions between rails models"
   s.description = "A simple gem for managing permissions between rails models"
@@ -8,6 +8,8 @@ Gem::Specification.new do |s|
   s.email       = 'adrien@siami.fr'
   s.files       = `git ls-files`.split("\n")
 
-  s.homepage    =
-    'http://github.com/Intrepidd/rails-canhaz'
+  s.homepage    = 'http://github.com/Intrepidd/rails-canhaz'
+
+  s.add_dependency 'activerecord', '>= 3.1.0'
+
 end
