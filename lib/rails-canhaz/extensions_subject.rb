@@ -49,6 +49,11 @@ module CanHaz
         !self.can?(permission, object)
       end
 
+      # Removes all permissions on the current subject
+      def can_do_nothing
+        CanHazPermission.destroy_all(['csubject_id = ? AND csubject_type = ?', self.id, self.class.to_s])
+      end
+
       # Gets All objects that match a given type and permission
       #
       # @param type [Class] The type of the objects

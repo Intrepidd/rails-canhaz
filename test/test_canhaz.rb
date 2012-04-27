@@ -151,5 +151,39 @@ class CanHazTest < Test::Unit::TestCase
 
   end
 
+
+  def test_drop_all
+    subject = SubjectModel.new
+    subject.save
+
+    subject2 = SubjectModel.new
+    subject2.save
+
+    object1 = ObjectModel.new
+    object1.save
+
+    object2 = ObjectModel.new
+    object2.save
+
+    subject.can(:foo, object1)
+    subject.can(:bar, object1)
+    subject.can(:foo, object2)
+    subject.can(:bar, object2)
+
+    subject2.can(:foo, object1)
+
+    subject.can_do_nothing
+
+    subject.reload
+
+    assert subject.cannot?(:foo, object1)
+    assert subject.cannot?(:bar, object1)
+    assert subject.cannot?(:foo, object2)
+    assert subject.cannot?(:bar, object2)
+
+    assert subject2.reload.can?(:foo, object1)
+
+  end
+
 end
 
