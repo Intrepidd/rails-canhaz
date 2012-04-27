@@ -185,5 +185,36 @@ class CanHazTest < Test::Unit::TestCase
 
   end
 
+  def test_multiple
+    s1 = SubjectModel.new
+    s2 = SubjectModel.new
+
+    o1 = ObjectModel.new
+    o2 = ObjectModel.new
+
+    s1.save
+    s2.save
+    o1.save
+    o2.save
+
+    s1.can(:foo, o1)
+    s1.can(:foo, o2)
+    s1.can(:bar, o2)
+
+    s2.can(:bar, o1)
+    s2.can(:foo, o2)
+
+    result = CanHazPermission.can?([s1, s2], :foo, [o1, o2])
+
+    assert result[s1.id] == [o1, o2]
+    assert result[s2.id] == [o2]
+
+    result = CanHazPermission.can?([s1, s2], :bar, [o1, o2])
+
+    assert result[s1.id] == [o2]
+    assert result[s2.id] == [o1]
+
+  end
+
 end
 
