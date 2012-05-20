@@ -216,5 +216,22 @@ class CanHazTest < Test::Unit::TestCase
 
   end
 
+  def test_destroy
+    s = SubjectModel.new
+    o = ObjectModel.new
+
+    s.save
+    o.save
+
+    id = s.id
+
+    s.can(:foo, o)
+    s.can(:bar, o)
+
+    s.destroy
+
+    assert CanHazPermission.find_by_csubject_id(id).nil?
+  end
+
 end
 
