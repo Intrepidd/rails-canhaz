@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'rails-canhaz'
-  s.version     = '0.2.0'
-  s.date        = '2012-04-27'
+  s.version     = '0.3.0'
+  s.date        = '2012-05-20'
   s.summary     = "A simple gem for managing permissions between rails models"
   s.description = "A simple gem for managing permissions between rails models"
   s.authors     = ["Adrien Siami (Intrepidd)"]
