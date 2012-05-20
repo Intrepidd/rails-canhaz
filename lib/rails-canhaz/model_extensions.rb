@@ -24,6 +24,8 @@ module CanHaz
     #
     def acts_as_canhaz_subject
       include CanHaz::ModelExtensions::Subject
+
+      before_destroy :can_do_nothing # Removes permission before deleting the subject
     end
 
   end
