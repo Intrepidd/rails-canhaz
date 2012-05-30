@@ -62,8 +62,8 @@ article = Article.find(1337)
 
 user.can?(:read, article) # Can the user read this article? false for now
 
-user.can(:read, article) # Ok, so the user can read this article
-user.can(:edit, article) # He can edit it as well
+user.can!(:read, article) # Ok, so the user can read this article
+user.can!(:edit, article) # He can edit it as well
 
 user.can?(:read, article) # Will be true
 
