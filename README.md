@@ -77,4 +77,11 @@ user.cannot!(:read, article)
 
 ```
 
-More coming soon ...
+## Changelog
+
+* 0.4.0 : 
+  * Aliasing can to can! and deprecating can
+  * Aliasing cannot to cannot! and deprecating cannot
+
+* 0.3.0 :
+  * Removing rights from the database before destroying a subject or object model
