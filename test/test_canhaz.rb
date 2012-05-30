@@ -39,11 +39,11 @@ class CanHazTest < Test::Unit::TestCase
     object = ObjectModel.new
 
     assert_raise CanHaz::Exceptions::NotACanHazObject do
-        subject.can(:whatever, foo)
+        subject.can!(:whatever, foo)
     end
 
     assert_nothing_raised RuntimeError do
-        subject.can(:whatever, object)
+        subject.can!(:whatever, object)
     end
 
     assert_raise CanHaz::Exceptions::NotACanHazObject do
@@ -69,11 +69,11 @@ class CanHazTest < Test::Unit::TestCase
     assert object.accessible_by?(subject, :foo) == false
     assert object.accessible_by?(subject, :bar) == false
 
-    assert subject.can(:foo, object)
-    assert subject.can(:bar, object)
+    assert subject.can!(:foo, object)
+    assert subject.can!(:bar, object)
 
-    assert subject.can(:foo, object) == false
-    assert subject.can(:bar, object) == false
+    assert subject.can!(:foo, object) == false
+    assert subject.can!(:bar, object) == false
 
     assert subject.can?(:foo, object)
     assert subject.can?(:bar, object)
@@ -101,8 +101,8 @@ class CanHazTest < Test::Unit::TestCase
     assert subject.can?(:foo, object) == false
     assert subject.cannot(:foo, object) == false
 
-    subject.can(:foo, object)
-    subject.can(:bar, object)
+    subject.can!(:foo, object)
+    subject.can!(:bar, object)
 
     assert subject.can?(:foo, object)
     assert subject.can?(:bar, object)
@@ -125,9 +125,9 @@ class CanHazTest < Test::Unit::TestCase
     s2.save
     s3.save
 
-    s1.can(:foo, object)
-    s2.can(:bar, object)
-    s3.can(:foo, object)
+    s1.can!(:foo, object)
+    s2.can!(:bar, object)
+    s3.can!(:foo, object)
 
     foo = object.subjects_with_permission(SubjectModel, :foo)
 
@@ -165,12 +165,12 @@ class CanHazTest < Test::Unit::TestCase
     object2 = ObjectModel.new
     object2.save
 
-    subject.can(:foo, object1)
-    subject.can(:bar, object1)
-    subject.can(:foo, object2)
-    subject.can(:bar, object2)
+    subject.can!(:foo, object1)
+    subject.can!(:bar, object1)
+    subject.can!(:foo, object2)
+    subject.can!(:bar, object2)
 
-    subject2.can(:foo, object1)
+    subject2.can!(:foo, object1)
 
     subject.can_do_nothing
 
@@ -197,12 +197,12 @@ class CanHazTest < Test::Unit::TestCase
     o1.save
     o2.save
 
-    s1.can(:foo, o1)
-    s1.can(:foo, o2)
-    s1.can(:bar, o2)
+    s1.can!(:foo, o1)
+    s1.can!(:foo, o2)
+    s1.can!(:bar, o2)
 
-    s2.can(:bar, o1)
-    s2.can(:foo, o2)
+    s2.can!(:bar, o1)
+    s2.can!(:foo, o2)
 
     result = CanHazPermission.can?([s1, s2], :foo, [o1, o2])
 
@@ -225,8 +225,8 @@ class CanHazTest < Test::Unit::TestCase
 
     id = s.id
 
-    s.can(:foo, o)
-    s.can(:bar, o)
+    s.can!(:foo, o)
+    s.can!(:bar, o)
 
     s.destroy
 
@@ -240,8 +240,8 @@ class CanHazTest < Test::Unit::TestCase
 
     id = o.id
 
-    s.can(:foo, o)
-    s.can(:bar, o)
+    s.can!(:foo, o)
+    s.can!(:bar, o)
 
     o.destroy
 
