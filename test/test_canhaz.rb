@@ -99,7 +99,7 @@ class CanHazTest < Test::Unit::TestCase
     object.save
 
     assert subject.can?(:foo, object) == false
-    assert subject.cannot(:foo, object) == false
+    assert subject.cannot!(:foo, object) == false
 
     subject.can!(:foo, object)
     subject.can!(:bar, object)
@@ -107,7 +107,7 @@ class CanHazTest < Test::Unit::TestCase
     assert subject.can?(:foo, object)
     assert subject.can?(:bar, object)
 
-    assert subject.cannot(:foo, object) == true
+    assert subject.cannot!(:foo, object) == true
 
     assert subject.can?(:foo, object) == false
     assert subject.can?(:bar, object) == true
@@ -135,7 +135,7 @@ class CanHazTest < Test::Unit::TestCase
     assert foo.include?(s2) == false
     assert foo.include?(s3) == true
 
-    s3.cannot(:foo, object)
+    s3.cannot!(:foo, object)
 
     foo = object.subjects_with_permission(SubjectModel, :foo)
 

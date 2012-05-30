@@ -73,7 +73,7 @@ artice.subjects_with_permission(User, :read) # Will return all the users hat are
 
 #You can also remove permissions
 
-user.cannot(:read, article)
+user.cannot!(:read, article)
 
 ```
 
