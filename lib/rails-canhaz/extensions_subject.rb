@@ -36,12 +36,20 @@ module CanHaz
         CanHazPermission.find_permission(self, object, permission) != nil
       end
 
+      # Alias for {#cannot!}
+      #
+      # @deprecated Please use {#cannot!} instead
+      def cannot(permission, object)
+        warn "[DEPRECATION] cannot is deprecated and will be removed in a future release, please use `cannot!` instead"
+        self.cannot!(permission, object)
+      end
+
       # Removes a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
       # @param object [ActiveRecord::Base] The model on which the permission is effective
       # @return [Bool] True if the role was successfully removed, false if it did not exist
-      def cannot(permission, object)
+      def cannot!(permission, object)
         permission = CanHazPermission.find_permission(self, object, permission)
         return false if permission.nil?
         permission.destroy and return true
