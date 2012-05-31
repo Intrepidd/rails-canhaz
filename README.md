@@ -35,6 +35,12 @@ add_index :can_haz_permissions, :csubject_id, :name => 'subject_id_ix'
 add_index :can_haz_permissions, :cobject_id, :name => 'object_id_ix'
 ```
 
+Or you can run this command to automatically create one:
+
+```
+rails g can_haz:install
+```
+
 ## How to use it ?
 
 The rails-canhaz gem defines two static functions for ActiveRecord models which allow them to act as a subject or an object.
@@ -79,7 +85,7 @@ user.cannot!(:read, article)
 
 ## Changelog
 
-* 0.4.0 : 
+* 0.4.0 :
   * Aliasing can to can! and deprecating can
   * Aliasing cannot to cannot! and deprecating cannot
 
