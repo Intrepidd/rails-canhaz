@@ -5,7 +5,7 @@ module CanHaz
       # Alias for {#can!}
       #
       # @deprecated Please use {#can!} instead
-      def can(permission, object)
+      def can(permission, object = nil)
         warn "[DEPRECATION] can is deprecated and will be removed in a future release, please use `can!` instead"
         self.can!(permission, object)
       end
@@ -13,15 +13,20 @@ module CanHaz
       # Creates a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
-      # @param object [ActiveRecord::Base] The model on which the permission is effective
+      # @param object [ActiveRecord::Base, nil] The model on which the permission is effective
+      #   Can be nil if it is a global permission that does not targer an object
       # @return [Bool] True if the role was successfully created, false if it was already present
-      def can!(permission, object)
-        raise Exceptions::NotACanHazObject unless object.canhaz_object?
+      def can!(permission, object = nil)
+        raise Exceptions::NotACanHazObject unless (object.nil? || object.canhaz_object?)
+
+        object_type = object.nil? ? nil : object.class.to_s
+        object_id = object.nil? ? nil : object.id
+
         CanHazPermission.new({
           :csubject_id       => self.id,
           :csubject_type     => self.class.to_s,
-          :cobject_type      => object.class.to_s,
-          :cobject_id        => object.id,
+          :cobject_type      => object_type,
+          :cobject_id        => object_id,
           :permission_name  => permission
           }).save
       end
