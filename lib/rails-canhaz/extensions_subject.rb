@@ -2,14 +2,6 @@ module CanHaz
   module ModelExtensions
     module Subject
 
-      # Alias for {#can!}
-      #
-      # @deprecated Please use {#can!} instead
-      def can(permission, object = nil)
-        warn "[DEPRECATION] can is deprecated and will be removed in a future release, please use `can!` instead"
-        self.can!(permission, object)
-      end
-
       # Creates a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
@@ -40,14 +32,6 @@ module CanHaz
       def can?(permission, object = nil)
         raise Exceptions::NotACanHazObject unless (object.nil? || object.canhaz_object?)
         CanHazPermission.find_permission(self, object, permission) != nil
-      end
-
-      # Alias for {#cannot!}
-      #
-      # @deprecated Please use {#cannot!} instead
-      def cannot(permission, object = nil)
-        warn "[DEPRECATION] cannot is deprecated and will be removed in a future release, please use `cannot!` instead"
-        self.cannot!(permission, object)
       end
 
       # Removes a permission on a given object
