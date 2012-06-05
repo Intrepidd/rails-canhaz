@@ -35,6 +35,12 @@ add_index :can_haz_permissions, :csubject_id, :name => 'subject_id_ix'
 add_index :can_haz_permissions, :cobject_id, :name => 'object_id_ix'
 ```
 
+Or you can run this command to automatically create one:
+
+```
+rails g can_haz:install
+```
+
 ## How to use it ?
 
 The rails-canhaz gem defines two static functions for ActiveRecord models which allow them to act as a subject or an object.
@@ -62,8 +68,8 @@ article = Article.find(1337)
 
 user.can?(:read, article) # Can the user read this article? false for now
 
-user.can(:read, article) # Ok, so the user can read this article
-user.can(:edit, article) # He can edit it as well
+user.can!(:read, article) # Ok, so the user can read this article
+user.can!(:edit, article) # He can edit it as well
 
 user.can?(:read, article) # Will be true
 
@@ -73,8 +79,15 @@ artice.subjects_with_permission(User, :read) # Will return all the users hat are
 
 #You can also remove permissions
 
-user.cannot(:read, article)
+user.cannot!(:read, article)
 
 ```
 
-More coming soon ...
+## Changelog
+
+* 0.4.0 :
+  * Aliasing can to can! and deprecating can
+  * Aliasing cannot to cannot! and deprecating cannot
+
+* 0.3.0 :
+  * Removing rights from the database before destroying a subject or object model

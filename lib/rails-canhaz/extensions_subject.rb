@@ -2,12 +2,20 @@ module CanHaz
   module ModelExtensions
     module Subject
 
+      # Alias for {#can!}
+      #
+      # @deprecated Please use {#can!} instead
+      def can(permission, object)
+        warn "[DEPRECATION] can is deprecated and will be removed in a future release, please use `can!` instead"
+        self.can!(permission, object)
+      end
+
       # Creates a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
       # @param object [ActiveRecord::Base] The model on which the permission is effective
       # @return [Bool] True if the role was successfully created, false if it was already present
-      def can(permission, object)
+      def can!(permission, object)
         raise Exceptions::NotACanHazObject unless object.canhaz_object?
         CanHazPermission.new({
           :csubject_id       => self.id,
@@ -28,12 +36,20 @@ module CanHaz
         CanHazPermission.find_permission(self, object, permission) != nil
       end
 
+      # Alias for {#cannot!}
+      #
+      # @deprecated Please use {#cannot!} instead
+      def cannot(permission, object)
+        warn "[DEPRECATION] cannot is deprecated and will be removed in a future release, please use `cannot!` instead"
+        self.cannot!(permission, object)
+      end
+
       # Removes a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
       # @param object [ActiveRecord::Base] The model on which the permission is effective
       # @return [Bool] True if the role was successfully removed, false if it did not exist
-      def cannot(permission, object)
+      def cannot!(permission, object)
         permission = CanHazPermission.find_permission(self, object, permission)
         return false if permission.nil?
         permission.destroy and return true

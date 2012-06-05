@@ -24,6 +24,12 @@ module CanHaz
         type.where('id IN (?)', ids)
       end
 
+      # Removes all rights on this object
+      #
+      def not_accessible
+        CanHazPermission.destroy_all(['cobject_id = ? AND cobject_type = ?', self.id, self.class.to_s])
+      end
+
       def canhaz_object?
         true
       end
