@@ -81,14 +81,24 @@ artice.subjects_with_permission(User, :read) # Will return all the users hat are
 
 user.cannot!(:read, article)
 
+# Version 1.0.0 introduces global permissions :
+
+user.can?(:haz_cheezburgers) # false
+
+user.can!(:haz_cheezburgers)
+
+user.can?(:haz_cheezburgers) # true
+
 ```
 
 ## Changelog
+* 1.0.0 (hurray !):
+  * Removing can and cannot deprecated functions (renamed to can! and cannot!)
+  * Adding global permissions for subjects
 * 0.4.1 :
   * Adding a rails migration generator thanks to [Awea](http://github.com/Awea)
 * 0.4.0 :
   * Aliasing can to can! and deprecating can
   * Aliasing cannot to cannot! and deprecating cannot
-
 * 0.3.0 :
   * Removing rights from the database before destroying a subject or object model
