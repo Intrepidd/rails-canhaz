@@ -248,5 +248,19 @@ class CanHazTest < Test::Unit::TestCase
     assert CanHazPermission.find_by_cobject_id(id).nil?
   end
 
+  def test_global_permissions
+
+    s = SubjectModel.new
+    s.save
+
+    assert_equal true, s.can!(:foo)
+
+    assert_equal true, s.can?(:foo)
+
+    s.cannot!(:foo)
+
+    assert_equal false, s.can?(:foo)
+  end
+
 end
 
