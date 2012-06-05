@@ -5,7 +5,7 @@ module CanHaz
       # Alias for {#can!}
       #
       # @deprecated Please use {#can!} instead
-      def can(permission, object)
+      def can(permission, object = nil)
         warn "[DEPRECATION] can is deprecated and will be removed in a future release, please use `can!` instead"
         self.can!(permission, object)
       end
@@ -13,15 +13,20 @@ module CanHaz
       # Creates a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
-      # @param object [ActiveRecord::Base] The model on which the permission is effective
+      # @param object [ActiveRecord::Base, nil] The model on which the permission is effective
+      #   Can be nil if it is a global permission that does not target an object
       # @return [Bool] True if the role was successfully created, false if it was already present
-      def can!(permission, object)
-        raise Exceptions::NotACanHazObject unless object.canhaz_object?
+      def can!(permission, object = nil)
+        raise Exceptions::NotACanHazObject unless (object.nil? || object.canhaz_object?)
+
+        object_type = object.nil? ? nil : object.class.to_s
+        object_id = object.nil? ? nil : object.id
+
         CanHazPermission.new({
           :csubject_id       => self.id,
           :csubject_type     => self.class.to_s,
-          :cobject_type      => object.class.to_s,
-          :cobject_id        => object.id,
+          :cobject_type      => object_type,
+          :cobject_id        => object_id,
           :permission_name  => permission
           }).save
       end
@@ -29,17 +34,18 @@ module CanHaz
       # Checks if the subject has a given permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
-      # @param object [ActiveRecord::Base] The model we are testing the permission on
+      # @param object [ActiveRecord::Base, nil] The model we are testing the permission on
+      #   Can be nil if it is a global permission that does not target an object
       # @return [Bool] True if the user has the given permission, false otherwise
-      def can?(permission, object)
-        raise Exceptions::NotACanHazObject unless object.canhaz_object?
+      def can?(permission, object = nil)
+        raise Exceptions::NotACanHazObject unless (object.nil? || object.canhaz_object?)
         CanHazPermission.find_permission(self, object, permission) != nil
       end
 
       # Alias for {#cannot!}
       #
       # @deprecated Please use {#cannot!} instead
-      def cannot(permission, object)
+      def cannot(permission, object = nil)
         warn "[DEPRECATION] cannot is deprecated and will be removed in a future release, please use `cannot!` instead"
         self.cannot!(permission, object)
       end
@@ -47,9 +53,9 @@ module CanHaz
       # Removes a permission on a given object
       #
       # @param permission [String, Symbol] The identifier of the permission
-      # @param object [ActiveRecord::Base] The model on which the permission is effective
+      # @param object [ActiveRecord::Base, nil] The model on which the permission is effective. Can be nil if it is a global permission that does not target an object
       # @return [Bool] True if the role was successfully removed, false if it did not exist
-      def cannot!(permission, object)
+      def cannot!(permission, object = nil)
         permission = CanHazPermission.find_permission(self, object, permission)
         return false if permission.nil?
         permission.destroy and return true
@@ -59,9 +65,9 @@ module CanHaz
       # Acts as a proxy of !subject.can?(permission, object)
       #
       # @param permission [String, Symbol] The identifier of the permission
-      # @param object [ActiveRecord::Base] The model we are testing the permission on
+      # @param object [ActiveRecord::Base] The model we are testing the permission on. Can be nil if it is a global permission that does not target an object
       # @return [Bool] True if the user has not the given permission, false otherwise
-      def cannot?(permission, object)
+      def cannot?(permission, object = nil)
         !self.can?(permission, object)
       end
 
