@@ -7,18 +7,21 @@ class CanHazPermission < ActiveRecord::Base
   # Gets the permission row between two objects
   #
   # @param subject [ActiveRecord::Base] The subject
-  # @param object [ActiveRecord::Base] The object
+  # @param object [ActiveRecord::Base, nil] The object. Can be nil if it is a global permission that does not target an object
   # @param permission [String, Symbol] The permission identifier
   # @return [CanHazPermission, nil] The corresponding permission if found or nil
-  def self.find_permission(subject, object, permission)
+  def self.find_permission(subject, object = nil, permission)
     raise NotACanHazSubject unless subject.canhaz_subject?
-    raise NotACanHazObject unless object.canhaz_object?
+    raise NotACanHazObject unless (object.nil? || object.canhaz_object?)
+
+    object_type = object.nil? ? nil : object.class.to_s
+    object_id = object.nil? ? nil : object.id
 
     results = CanHazPermission.where(
       :csubject_id      => subject.id,
       :csubject_type    => subject.class.to_s,
-      :cobject_id       => object.id,
-      :cobject_type     => object.class.to_s,
+      :cobject_id       => object_id,
+      :cobject_type     => object_type,
       :permission_name  => permission
     )
     results.first
