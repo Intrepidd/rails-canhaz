@@ -84,7 +84,8 @@ user.cannot!(:read, article)
 ```
 
 ## Changelog
-
+* 0.4.1 :
+  * Adding a rails migration generator thanks to [Awea](http://github.com/Awea)
 * 0.4.0 :
   * Aliasing can to can! and deprecating can
   * Aliasing cannot to cannot! and deprecating cannot
