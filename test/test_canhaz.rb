@@ -253,6 +253,8 @@ class CanHazTest < Test::Unit::TestCase
     s = SubjectModel.new
     s.save
 
+    assert_equal false, s.can?(:foo)
+
     assert_equal true, s.can!(:foo)
 
     assert_equal true, s.can?(:foo)
