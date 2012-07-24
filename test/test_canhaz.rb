@@ -98,19 +98,19 @@ class CanHazTest < Test::Unit::TestCase
     object = ObjectModel.new
     object.save
 
-    assert subject.can?(:foo, object) == false
-    assert subject.cannot!(:foo, object) == false
+    assert_equal false, subject.can?(:foo, object)
+    assert_equal false, subject.cannot!(:foo, object)
 
     subject.can!(:foo, object)
     subject.can!(:bar, object)
 
-    assert subject.can?(:foo, object)
-    assert subject.can?(:bar, object)
+    assert_equal true, subject.can?(:foo, object)
+    assert_equal true, subject.can?(:bar, object)
 
-    assert subject.cannot!(:foo, object) == true
+    assert_equal true, subject.cannot!(:foo, object)
 
-    assert subject.can?(:foo, object) == false
-    assert subject.can?(:bar, object) == true
+    assert_equal false, subject.can?(:foo, object)
+    assert_equal true, subject.can?(:bar, object)
   end
 
   def test_subjects_from_object
