@@ -14,16 +14,13 @@ module CanHaz
         object_type = object.nil? ? nil : object.class.to_s
         object_id = object.nil? ? nil : object.id
 
-        res = CanHazPermission.new({
+        CanHazPermission.new({
           :csubject_id       => self.id,
           :csubject_type     => self.class.to_s,
           :cobject_type      => object_type,
           :cobject_id        => object_id,
           :permission_name  => permission
           }).save
-
-        self.set_canhaz_cache(object, permission, true) if res
-        res
       end
 
       # Checks if the subject has a given permission on a given object
@@ -34,12 +31,7 @@ module CanHaz
       # @return [Bool] True if the user has the given permission, false otherwise
       def can?(permission, object = nil)
         raise Exceptions::NotACanHazObject unless (object.nil? || object.canhaz_object?)
-
-        cache = self.get_canhaz_cache(object, permission)
-        return cache unless cache.nil?
-
-        result = CanHazPermission.find_permission(self, object, permission) != nil
-        self.set_canhaz_cache(object, permission,result) and return result
+        CanHazPermission.find_permission(self, object, permission) != nil
       end
 
       # Removes a permission on a given object
@@ -48,9 +40,9 @@ module CanHaz
       # @param object [ActiveRecord::Base, nil] The model on which the permission is effective. Can be nil if it is a global permission that does not target an object
       # @return [Bool] True if the role was successfully removed, false if it did not exist
       def cannot!(permission, object = nil)
-        perm = CanHazPermission.find_permission(self, object, permission)
-        return false if perm.nil?
-        perm.destroy and self.set_canhaz_cache(object, permission, false) and return true
+        permission = CanHazPermission.find_permission(self, object, permission)
+        return false if permission.nil?
+        permission.destroy and return true
       end
 
       # Checks if the subject does not have a given permission on a given object
@@ -66,7 +58,6 @@ module CanHaz
       # Removes all permissions on the current subject
       def can_do_nothing
         CanHazPermission.destroy_all(['csubject_id = ? AND csubject_type = ?', self.id, self.class.to_s])
-        @__canhaz.clear
       end
 
       # Gets All objects that match a given type and permission
@@ -80,32 +71,6 @@ module CanHaz
 
       def canhaz_subject?
         true
-      end
-
-      protected
-
-      # Sets a value in the cache
-      #
-      # @param [Object] object The canhaz object
-      # @param [String, Symbol] permission the name of the permission
-      # @param [Boolean] value The value for this permission
-      def set_canhaz_cache(object, permission, value)
-        id = object ? object.id : 0
-        @__canhaz = {}
-        @__canhaz[object.class.to_s] ||= {}
-        @__canhaz[object.class.to_s][id] ||= {}
-        @__canhaz[object.class.to_s][id][permission.to_s] = value
-        true
-      end
-
-      # Gets a value from the cache
-      #
-      # @param [Object] object The canhaz object
-      # @param [String, Symbol] permission the name of the permission
-      # @return The value of this permission
-      def get_canhaz_cache(object, permission)
-        id = object ? object.id : 0
-        @__canhaz[object.class.to_s][id][permission.to_s] rescue nil
       end
 
     end
