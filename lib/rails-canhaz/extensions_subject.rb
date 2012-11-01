@@ -74,12 +74,8 @@ module CanHaz
       # @param type [Class] The type of the objects
       # @param permission [String, Symbol] The name of the permission
       # @return The macthing objects in an array
-      def objects_with_permission(type, permission = nil)
-        results = CanHazPermission.where('csubject_id = ? AND csubject_type = ?', self.id, self.class.to_s).where('cobject_type = ?', type.to_s).where('permission_name = ?', permission)
-
-        ids = results.collect { |r| r.cobject_id }
-
-        type.where('id IN (?)', ids)
+      def objects_with_permission(type, permission)
+        type.joins("INNER JOIN can_haz_permissions ON can_haz_permissions.cobject_id = #{type.table_name}.id").where('cobject_type = ?', type.to_s).where('permission_name = ?', permission)
       end
 
       def canhaz_subject?

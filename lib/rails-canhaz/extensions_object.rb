@@ -17,11 +17,7 @@ module CanHaz
       # @param type [Class] The type of the subjects we're looking for
       # @param permission [String, Symbol] The permission
       def subjects_with_permission(type, permission)
-        results = CanHazPermission.where('cobject_id = ? AND cobject_type = ?', self.id, self.class.to_s).where('csubject_type = ?', type.to_s).where('permission_name = ?', permission)
-
-        ids = results.collect { |r| r.csubject_id }
-
-        type.where('id IN (?)', ids)
+        type.joins("INNER JOIN can_haz_permissions ON can_haz_permissions.csubject_id = #{type.table_name}.id").where('cobject_id = ? AND cobject_type = ?', self.id, self.class.to_s).where('csubject_type = ?', type.to_s).where('permission_name = ?', permission)
       end
 
       # Removes all rights on this object
