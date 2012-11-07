@@ -60,8 +60,14 @@ class CanHazTest < Test::Unit::TestCase
     subject = SubjectModel.new
     subject.save
 
+    subject2 = SubjectModel.new
+    subject2.save
+
     object = ObjectModel.new
     object.save
+
+    subject2.can!(:foo, object)
+    subject2.can!(:bar, object)
 
     assert subject.can?(:foo, object) == false
     assert subject.can?(:bar, object) == false
