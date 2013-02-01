@@ -1,15 +1,21 @@
-Gem::Specification.new do |s|
-  s.name        = 'rails-canhaz'
-  s.version     = '1.0.5'
-  s.date        = '2012-11-07'
-  s.summary     = "A simple gem for managing permissions between rails models"
-  s.description = "A simple gem for managing permissions between rails models"
-  s.authors     = ["Adrien Siami (Intrepidd)"]
-  s.email       = 'adrien@siami.fr'
-  s.files       = `git ls-files`.split("\n")
+# -*- encoding: utf-8 -*-
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rails-canhaz/version'
 
-  s.homepage    = 'http://github.com/Intrepidd/rails-canhaz'
+Gem::Specification.new do |gem|
+  gem.name          = "canhaz"
+  gem.version       = CanHaz::VERSION
+  gem.authors       = ["Intrepidd"]
+  gem.email         = ["adrien@siami.fr"]
+  gem.description   = 'A simple gem for managing permissions between rails models'
+  gem.summary       = 'A simple gem for managing permissions between rails models'
+  gem.homepage      = "http://github.com/Intrepidd/rails-canhaz"
 
-  s.add_dependency 'activerecord', '>= 3.1.0'
+  gem.files         = `git ls-files`.split($/)
+  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = ["lib"]
 
+  gem.add_dependency 'activerecord', '>= 3.1.0'
 end
