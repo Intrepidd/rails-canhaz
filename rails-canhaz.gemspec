@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rails-canhaz/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "canhaz"
+  gem.name          = "rails-canhaz"
   gem.version       = CanHaz::VERSION
   gem.authors       = ["Intrepidd"]
   gem.email         = ["adrien@siami.fr"]
