@@ -1,19 +1,19 @@
-# Rails-Canhaz
+# Rails-Canhaz for Rails 4.0.0.beta1 !
 
 This gem is a simple activerecord extention that allows any application using activerecord to manage permissions based roles.
 
-## Installation
+## Installation (Prerelease gem !)
 
 Standard gem installation :
 
 ```
-gem install rails-canhaz
+gem install rails-canhaz -v 2.0.0.pre
 ```
 
 Or in your Gemfile if you use bundler
 
 ```ruby
-gem 'rails-canhaz'
+gem 'rails-canhaz', '2.0.0.pre'
 ```
 
 You then need to create a single table in order to make this gem to work
