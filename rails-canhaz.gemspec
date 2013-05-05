@@ -18,4 +18,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'activerecord', '>= 3.1.0'
+  gem.add_dependency 'rake'
+
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'sqlite3'
 end

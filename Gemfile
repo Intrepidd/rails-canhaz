@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
-gem "activerecord", :require => "active_record"
-gem "sqlite3"
+# Specify your gem's dependencies in mongoid_counter_cache.gemspec
+gemspec
