@@ -1,9 +1,6 @@
 require 'active_record'
-require 'protected_attributes'
 
 class CanHazPermission < ActiveRecord::Base
-
-  attr_accessible :csubject_id, :csubject_type, :cobject_type, :cobject_id, :permission_name
 
   validates :cobject_id, :uniqueness => {:scope => [:permission_name, :csubject_id, :csubject_type, :cobject_type]}
 
