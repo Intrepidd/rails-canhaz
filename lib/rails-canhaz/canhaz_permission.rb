@@ -2,8 +2,8 @@ require 'active_record'
 
 class CanHazPermission < ActiveRecord::Base
 
-  if ActiveRecord.version < Gem::Version.new('4.0') && ActiveRecord.version >= Gem::Version.new('3.0')
-    # Only call attr_accessible for Rails 3.x
+  # Only call attr_accessible for Rails 3.x
+  if ActiveRecord::VERSION::MAJOR == '3'
     attr_accessible :csubject_id, :csubject_type, :cobject_type, :cobject_id, :permission_name
   end
 
