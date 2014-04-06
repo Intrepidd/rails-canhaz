@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
+gemspec :path => '..'
 
 git 'git://github.com/rails/rails.git' do
   gem 'activerecord'
 end
-
-gem 'rake'
-gem 'sqlite3'

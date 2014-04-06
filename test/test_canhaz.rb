@@ -1,13 +1,13 @@
 require 'init_tests'
 require 'rails-canhaz'
-require 'test/unit'
+require 'minitest/autorun'
 require 'models/object_model'
 require 'models/subject_model'
 require 'models/foo_model'
 
 load 'schema.rb'
 
-class CanHazTest < Test::Unit::TestCase
+class CanHazTest < Minitest::Unit::TestCase
 
   def test_methods
     assert ActiveRecord::Base.respond_to? :acts_as_canhaz_object
@@ -38,21 +38,19 @@ class CanHazTest < Test::Unit::TestCase
 
     object = ObjectModel.new
 
-    assert_raise CanHaz::Exceptions::NotACanHazObject do
+    assert_raises CanHaz::Exceptions::NotACanHazObject do
         subject.can!(:whatever, foo)
     end
 
-    assert_nothing_raised RuntimeError do
-        subject.can!(:whatever, object)
-    end
 
-    assert_raise CanHaz::Exceptions::NotACanHazObject do
+    subject.can!(:whatever, object)
+
+
+    assert_raises CanHaz::Exceptions::NotACanHazObject do
         subject.can?(:whatever, foo)
     end
 
-    assert_nothing_raised RuntimeError do
-        subject.can?(:whatever, object)
-    end
+    subject.can?(:whatever, object)
 
   end
 
@@ -271,4 +269,3 @@ class CanHazTest < Test::Unit::TestCase
   end
 
 end
-

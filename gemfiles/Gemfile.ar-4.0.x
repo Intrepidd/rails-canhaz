@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem 'activerecord', '~> 4.0'
+gemspec :path => '..'
 
-gem 'rake'
-gem 'sqlite3'
+gem 'activerecord', '~> 4.0'
