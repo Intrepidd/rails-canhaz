@@ -7,7 +7,7 @@ gemfile:
   - gemfiles/Gemfile.ar-3.2.x
   - gemfiles/Gemfile.ar-4.0.x
   - gemfiles/Gemfile.ar-4.1.x
-  - Gemfiles/Gemfile.ar-edge
+  - gemfiles/Gemfile.ar-edge
 matrix:
   allow_failures:
     - gemfile: gemfiles/Gemfile.ar-edge
