@@ -2,7 +2,10 @@ require 'active_record'
 
 class CanHazPermission < ActiveRecord::Base
 
-  attr_accessible :csubject_id, :csubject_type, :cobject_type, :cobject_id, :permission_name
+  if ActiveRecord.version < Gem::Version.new('4.0') && ActiveRecord.version >= Gem::Version.new('3.0')
+    # Only call attr_accessible for Rails 3.x
+    attr_accessible :csubject_id, :csubject_type, :cobject_type, :cobject_id, :permission_name
+  end
 
   validates :cobject_id, :uniqueness => {:scope => [:permission_name, :csubject_id, :csubject_type, :cobject_type]}
 
