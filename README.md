@@ -1,5 +1,3 @@
-Psst, looking for a gem that works with the beta release of Rails4 ? [Check the prerelease branch !](https://github.com/intrepidd/rails-canhaz/tree/4.0.0.beta1)
-
 [A port of this gem working on mongoid](https://github.com/intrepidd/mongoid-canhaz) is now avaible.
 # Rails-Canhaz [![Build Status](https://travis-ci.org/Intrepidd/rails-canhaz.png?branch=4.0.0.beta1)](https://travis-ci.org/Intrepidd/rails-canhaz)
 
