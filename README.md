@@ -65,7 +65,10 @@ Now our models are marked as canhaz subjects and objects, we have access to some
 
 ```ruby
 user = User.find(42)
+user2 = User.find(21)
+
 article = Article.find(1337)
+article2 = Article.find(784)
 
 user.can?(:read, article) # Can the user read this article? false for now
 
@@ -76,7 +79,11 @@ user.can?(:read, article) # Will be true
 
 user.objects_with_permission(Article, :read) # Will return all the articles w/ read permissions for this user
 
+User.objects_with_permission([user, user2], :read) # Will return all the articles w/ read permissions for these users
+
 article.subjects_with_permission(User, :read) # Will return all the users hat are able to read this article
+
+Article.subjects_with_permission([article, article2], User, :read) # Will return all the users that are able to read theses articles
 
 #You can also remove permissions
 

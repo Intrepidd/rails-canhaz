@@ -20,6 +20,7 @@ module CanHaz
         type.joins("INNER JOIN can_haz_permissions ON can_haz_permissions.csubject_id = #{type.table_name}.id").where('cobject_id = ? AND cobject_type = ?', self.id, self.class.to_s).where('csubject_type = ?', type.to_s).where('permission_name = ?', permission)
       end
 
+
       # Removes all rights on this object
       #
       def not_accessible
@@ -30,6 +31,23 @@ module CanHaz
         true
       end
 
+      module ClassMethods
+        # Gets the subjects that have the corresponding permission and type on this model
+        #
+        # params objects [Array or Object] The object(s) that you want subjects with permission
+        # @param type [Class] The type of the subjects we're looking for
+        # @param permission [String, Symbol] The permission
+        def subjects_with_permission(objects, type, permission)
+          class_name = (objects.is_a?(Array) ? objects.first.try(:class).try(:name) : objects.class.name)
+
+          type.joins("INNER JOIN can_haz_permissions ON can_haz_permissions.csubject_id = #{type.table_name}.id")
+          .where(:'can_haz_permissions.cobject_type' => class_name)
+          .where(:'can_haz_permissions.cobject_id' => objects)
+          .where('csubject_type = ?', type.to_s)
+          .where('permission_name = ?', permission)
+          .uniq
+        end
+      end
     end
   end
 end

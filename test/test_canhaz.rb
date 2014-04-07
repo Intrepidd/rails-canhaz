@@ -61,11 +61,26 @@ class CanHazTest < Minitest::Unit::TestCase
     subject2 = SubjectModel.new
     subject2.save
 
+    subject3 = SubjectModel.new
+    subject3.save
+
     object = ObjectModel.new
     object.save
 
+    object2 = ObjectModel.new
+    object2.save
+
+    object3 = ObjectModel.new
+    object3.save
+
     subject2.can!(:foo, object)
     subject2.can!(:bar, object)
+
+    subject2.can!(:foo, object2)
+    subject2.can!(:bar, object2)
+
+    subject3.can!(:foo, object)
+    subject3.cannot!(:bar, object)
 
     assert subject.can?(:foo, object) == false
     assert subject.can?(:bar, object) == false
@@ -90,9 +105,21 @@ class CanHazTest < Minitest::Unit::TestCase
 
     assert subject.objects_with_permission(ObjectModel, :bar).count == 1
     assert subject.objects_with_permission(ObjectModel, :bar).first == object
-
     assert subject.objects_with_permission(ObjectModel, :foobar).count == 0
 
+    assert SubjectModel.objects_with_permission(subject, ObjectModel, :bar).count == 1
+    assert SubjectModel.objects_with_permission([subject, subject2], ObjectModel, :bar).count == 2
+    assert SubjectModel.objects_with_permission([subject, subject2, subject3], ObjectModel, :bar).count == 2
+    assert SubjectModel.objects_with_permission([subject, subject2, subject3], ObjectModel, :foo).count == 2
+    assert SubjectModel.objects_with_permission([subject, subject3], ObjectModel, :foo).count == 1
+
+    assert object.subjects_with_permission(SubjectModel, :bar).count == 2
+    assert object.subjects_with_permission(SubjectModel, :foo).count == 3
+    assert object.subjects_with_permission(SubjectModel, :foo).count == 3
+
+    assert ObjectModel.subjects_with_permission([object, object2, object3], SubjectModel, :foo).count == 3
+    assert ObjectModel.subjects_with_permission(object2, SubjectModel, :foo).count == 1
+    assert ObjectModel.subjects_with_permission([object], SubjectModel, :bar).count == 2
   end
 
   def test_can_cannot
