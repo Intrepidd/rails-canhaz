@@ -73,6 +73,21 @@ module CanHaz
         true
       end
 
+      module ClassMethods
+        # Gets All objects that match a given type and permission
+        #
+        # params subjects [Array or Object] The subject(s) that you want objects with permission
+        # @param type [Class] The type of the objects
+        # @param permission [ String, Symbol] The name of the permission
+        # @return The macthing objects in an array
+        def objects_with_permission(subjects, type, permission)
+          type.joins("INNER JOIN can_haz_permissions ON can_haz_permissions.cobject_id = #{type.table_name}.id")
+          .where('cobject_type = ?', type.to_s)
+          .where(:'can_haz_permissions.csubject_id' => subjects)
+          .where('permission_name = ?', permission)
+          .uniq
+        end
+      end
     end
   end
 end
