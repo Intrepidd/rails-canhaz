@@ -1,5 +1,5 @@
 [A port of this gem working on mongoid](https://github.com/intrepidd/mongoid-canhaz) is now avaible.
-# Rails-Canhaz [![Build Status](https://travis-ci.org/Intrepidd/rails-canhaz.png?branch=4.0.0.beta1)](https://travis-ci.org/Intrepidd/rails-canhaz)
+# Rails-Canhaz [![Build Status](https://travis-ci.org/Intrepidd/rails-canhaz.png)](https://travis-ci.org/Intrepidd/rails-canhaz)
 
 This gem is a simple activerecord extention that allows any application using activerecord to manage permissions based roles.
 
