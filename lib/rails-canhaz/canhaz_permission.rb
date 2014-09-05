@@ -3,7 +3,7 @@ require 'active_record'
 class CanHazPermission < ActiveRecord::Base
 
   # Only call attr_accessible for Rails 3.x
-  if ActiveRecord::VERSION::MAJOR == '3'
+  if ActiveRecord::VERSION::MAJOR == 3
     attr_accessible :csubject_id, :csubject_type, :cobject_type, :cobject_id, :permission_name
   end
 
